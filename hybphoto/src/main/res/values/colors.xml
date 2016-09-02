@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="tv_white">#fff</color>
+    <color name="bg_white">#fff</color>
+    <color name="tv_black">#333</color>
+    <color name="bg_black">#333</color>
+    <color name="tv_wc_black">#666</color>
+    <color name="bg_wc_black1">#DC22292C</color>
+    <color name="bg_wc_black2">#cc111111</color>
+    <color name="bg_wc_mask">#88000000</color>
+
+</resources>
