@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<cn.fxnn.hybphoto.view.PhotoItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,7 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
-        android:src="@color/bg_wc_mask" />
+        android:src="@color/bg_wc_mask"
+        android:adjustViewBounds="true"/>
 
     <View
         android:id="@+id/photo_mask"
@@ -25,4 +26,4 @@
         android:layout_gravity="top|right"
         android:paddingRight="10dp"
         android:paddingTop="20dp" />
-</FrameLayout>
+</cn.fxnn.hybphoto.view.PhotoItemLayout>

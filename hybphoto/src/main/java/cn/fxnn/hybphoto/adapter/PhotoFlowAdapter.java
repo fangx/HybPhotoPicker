@@ -11,11 +11,16 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 
+import com.bumptech.glide.RequestManager;
+
+import java.io.File;
 import java.util.List;
 
 import cn.fxnn.hybphoto.R;
 import cn.fxnn.hybphoto.bean.PhotoBean;
 import cn.fxnn.hybphoto.bean.PhotoFolderBean;
+import cn.fxnn.hybphoto.listener.PhotoCheckListener;
+import cn.fxnn.hybphoto.listener.PhotoClickListener;
 import cn.fxnn.hybphoto.utils.MediaStoreHelper;
 
 /**
@@ -39,15 +44,20 @@ public class PhotoFlowAdapter extends PickerAdapter<PhotoFlowAdapter.PhotoViewHo
     //是否需要显示相机
     private boolean show_camera = false;
 
+    private RequestManager glideRequestManager;
 
-    public PhotoFlowAdapter(Context context, List<PhotoFolderBean> photoFolderBeanList) {
+    private View.OnClickListener cameraClickListener = null;
+    private PhotoCheckListener photoCheckListener = null;
+    private PhotoClickListener photoClickListener = null;
+
+    public PhotoFlowAdapter(Context context, List<PhotoFolderBean> photoFolderBeanList, RequestManager glideRequestManager) {
         this.photoFolderBeens = photoFolderBeanList;
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
         DisplayMetrics metrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(metrics);
         int widthPixels = metrics.widthPixels;
         imageSize = widthPixels / 3;
-
+        this.glideRequestManager = glideRequestManager;
         inflater = LayoutInflater.from(context);
     }
 
@@ -92,6 +102,17 @@ public class PhotoFlowAdapter extends PickerAdapter<PhotoFlowAdapter.PhotoViewHo
             }
 
 
+            glideRequestManager
+                    .load(new File(photoBean.getPath()))
+                    .centerCrop()
+                    .dontAnimate()
+                    .thumbnail(0.5f)
+                    .override(imageSize, imageSize)
+                    .placeholder(R.drawable.default_200)
+                    .error(R.drawable.default_200)
+                    .into(holder.ivPhoto);
+
+
             final boolean isChecked = isSelected(photoBean);
 
             holder.cbPhoto.setChecked(isChecked);
@@ -104,19 +125,21 @@ public class PhotoFlowAdapter extends PickerAdapter<PhotoFlowAdapter.PhotoViewHo
                 }
             });
 
-            holder.cbPhoto.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            holder.cbPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                public void onClick(View v) {
                     int pos = holder.getAdapterPosition();
                     boolean isEnable = true;
-                    //                    if (onItemCheckListener != null) {
-//                        isEnable = onItemCheckListener.OnItemCheck(pos, photoBean, isChecked,
-//                                getSelectedPhotos().size());
-//                    }
+                    if (photoCheckListener != null) {
+                        isEnable = photoCheckListener.photoCheck(pos, isChecked, photoBean,
+                                getSelectedPhotos().size());
+                    }
                     if (isEnable) {
                         toggleSelection(photoBean);
                         notifyItemChanged(pos);
                     }
+
                 }
             });
 
@@ -160,4 +183,28 @@ public class PhotoFlowAdapter extends PickerAdapter<PhotoFlowAdapter.PhotoViewHo
         return (show_camera && currentDirectoryIndex == MediaStoreHelper.INDEX_ALL_PHOTOS);
     }
 
+
+    public View.OnClickListener getCameraClickListener() {
+        return cameraClickListener;
+    }
+
+    public void setCameraClickListener(View.OnClickListener cameraClickListener) {
+        this.cameraClickListener = cameraClickListener;
+    }
+
+    public PhotoCheckListener getPhotoCheckListener() {
+        return photoCheckListener;
+    }
+
+    public void setPhotoCheckListener(PhotoCheckListener photoCheckListener) {
+        this.photoCheckListener = photoCheckListener;
+    }
+
+    public PhotoClickListener getPhotoClickListener() {
+        return photoClickListener;
+    }
+
+    public void setPhotoClickListener(PhotoClickListener photoClickListener) {
+        this.photoClickListener = photoClickListener;
+    }
 }

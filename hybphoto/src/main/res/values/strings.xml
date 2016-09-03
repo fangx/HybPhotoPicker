@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">HybPhoto</string>
+    <string name="photo_max_count_tips">最多只能选择 %1$d 张图片</string>
 </resources>
