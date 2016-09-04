@@ -77,9 +77,9 @@ public class PhotoFlowAdapter extends PickerAdapter<PhotoFlowAdapter.PhotoViewHo
             holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    if (onCameraClickListener != null) {
-//                        onCameraClickListener.onClick(view);
-//                    }
+                    if (cameraClickListener != null) {
+                        cameraClickListener.onClick(view);
+                    }
                 }
             });
         }
