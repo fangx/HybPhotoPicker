@@ -3,11 +3,21 @@
 
     <color name="tv_white">#fff</color>
     <color name="bg_white">#fff</color>
+    <color name="tv_light_white">#80ffffff</color>
     <color name="tv_black">#333</color>
+
+    <color name="tv_gray_light">#B4B4B4</color>
+    <color name="tv_gray">#858585</color>
+
     <color name="bg_black">#333</color>
     <color name="tv_wc_black">#666</color>
     <color name="bg_wc_black1">#DC22292C</color>
     <color name="bg_wc_black2">#cc111111</color>
     <color name="bg_wc_mask">#88000000</color>
+
+
+    <color name="wc_green_press">#30941F</color>
+    <color name="wc_green">#50C937</color>
+    <color name="wc_green_enable">#2E6733</color>
 
 </resources>

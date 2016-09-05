@@ -1,16 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/fl_pf_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="48dp" />
 
     <include
         android:id="@+id/top_bar"
         layout="@layout/top_bar" />
 
-    <FrameLayout
-        android:id="@+id/fl_pf_fragment"
+    <RelativeLayout
+        android:id="@+id/footer_bar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="48dp"
+        android:layout_gravity="bottom"
+        android:background="@color/bg_wc_black1"
+        android:gravity="bottom">
 
-</LinearLayout>
+        <Button
+            android:id="@+id/btn_dir"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:background="@null"
+            android:ellipsize="end"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:singleLine="true"
+            android:text="全部图片"
+            android:textColor="@color/tv_gray_light"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_preview"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@null"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:text="预览(1)"
+            android:textColor="@color/tv_gray_color"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="1px"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:layout_toLeftOf="@id/btn_preview"
+            android:background="@color/bg_wc_black2" />
+    </RelativeLayout>
+</FrameLayout>

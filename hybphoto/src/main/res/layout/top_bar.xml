@@ -23,7 +23,7 @@
         android:background="@color/bg_wc_black2" />
 
     <TextView
-        android:id="@+id/tv_des"
+        android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -45,8 +45,8 @@
         android:minHeight="30dp"
         android:minWidth="50dp"
         android:padding="8dp"
-        android:text="完成(3/9)"
-        android:textColor="@color/bg_white"
+        android:text="完成"
+        android:textColor="@color/ok_btn_color"
         android:textSize="14dp" />
 
     <ImageView

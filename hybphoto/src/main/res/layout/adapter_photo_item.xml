@@ -27,8 +27,8 @@
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_gravity="top|right"
-        android:layout_margin="5dip"
+        android:layout_margin="2dip"
         android:clickable="true"
-        android:padding="5dip"
+        android:padding="7dip"
         android:src="@drawable/selector_item_checked" />
 </cn.fxnn.hybphoto.view.PhotoItemLayout>
