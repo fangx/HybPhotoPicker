@@ -7,8 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.bumptech.glide.RequestManager;
@@ -101,7 +99,6 @@ public class PhotoFlowAdapter extends PickerAdapter<PhotoFlowAdapter.PhotoViewHo
                 photoBean = photoBeanList.get(position);
             }
 
-
             glideRequestManager
                     .load(new File(photoBean.getPath()))
                     .centerCrop()
@@ -113,11 +110,6 @@ public class PhotoFlowAdapter extends PickerAdapter<PhotoFlowAdapter.PhotoViewHo
                     .into(holder.ivPhoto);
 
 
-            final boolean isChecked = isSelected(photoBean);
-
-            holder.cbPhoto.setChecked(isChecked);
-            holder.ivPhoto.setSelected(isChecked);
-
             holder.ivPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -125,6 +117,16 @@ public class PhotoFlowAdapter extends PickerAdapter<PhotoFlowAdapter.PhotoViewHo
                 }
             });
 
+
+            final boolean isChecked = isSelected(photoBean);
+
+            if (isChecked) {
+                holder.mask.setVisibility(View.VISIBLE);
+                holder.cbPhoto.setSelected(true);
+            } else {
+                holder.mask.setVisibility(View.GONE);
+                holder.cbPhoto.setSelected(false);
+            }
 
             holder.cbPhoto.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -136,6 +138,13 @@ public class PhotoFlowAdapter extends PickerAdapter<PhotoFlowAdapter.PhotoViewHo
                                 getSelectedPhotos().size());
                     }
                     if (isEnable) {
+                        if (isSelected(photoBean)) {
+                            holder.mask.setVisibility(View.VISIBLE);
+                            holder.cbPhoto.setSelected(true);
+                        } else {
+                            holder.mask.setVisibility(View.GONE);
+                            holder.cbPhoto.setSelected(false);
+                        }
                         toggleSelection(photoBean);
                         notifyItemChanged(pos);
                     }
@@ -164,13 +173,13 @@ public class PhotoFlowAdapter extends PickerAdapter<PhotoFlowAdapter.PhotoViewHo
     public static class PhotoViewHolder extends RecyclerView.ViewHolder {
         public ImageView ivPhoto;
         public View mask;
-        public CheckBox cbPhoto;
+        public ImageView cbPhoto;
 
         public PhotoViewHolder(View itemView) {
             super(itemView);
             ivPhoto = (ImageView) itemView.findViewById(R.id.iv_photo);
             mask = itemView.findViewById(R.id.photo_mask);
-            cbPhoto = (CheckBox) itemView.findViewById(R.id.ck_photo);
+            cbPhoto = (ImageView) itemView.findViewById(R.id.ck_photo);
         }
     }
 
