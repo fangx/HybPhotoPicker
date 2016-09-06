@@ -3,4 +3,7 @@
     <string name="photo_max_count_tips">最多只能选择 %1$d 张图片</string>
     <string name="photo_picker_ok">完成(%1$d/%2$d)</string>
     <string name="photo_picker_preview">预览(%1$d)</string>
+    <string name="ok">完成</string>
+    <string name="preview">预览</string>
+    <string name="pick_photo">选择图片</string>
 </resources>

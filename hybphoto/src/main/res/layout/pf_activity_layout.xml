@@ -34,7 +34,9 @@
             android:singleLine="true"
             android:text="全部图片"
             android:textColor="@color/tv_gray_light"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif-light"/>
 
         <Button
             android:id="@+id/btn_preview"
@@ -44,9 +46,11 @@
             android:background="@null"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:text="预览(1)"
+            android:text="@string/preview"
             android:textColor="@color/tv_gray_color"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:textStyle="normal"
+            android:fontFamily="sans-serif-light"/>
 
         <View
             android:layout_width="1px"

@@ -17,6 +17,7 @@ public enum TypefaceUtils {
     private static Typeface typeface50;
     private static Typeface typeface55;
     private static Typeface typefaceny;
+    private static Typeface typefacenywcb;
 
     public void setFontSmall(TextView textView) {
         if (typeface50 == null)

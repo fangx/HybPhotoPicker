@@ -29,9 +29,11 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="8dp"
         android:layout_toRightOf="@id/btn_back"
-        android:text="选择图片"
-        android:textColor="@color/bg_white"
-        android:textSize="16dp" />
+        android:fontFamily="sans-serif-light"
+        android:text="@string/pick_photo"
+        android:textColor="@color/tv_white"
+        android:textSize="18sp"
+        android:textStyle="normal" />
 
     <Button
         android:id="@+id/btn_ok"
@@ -42,12 +44,13 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:background="@drawable/selector_top_ok"
+        android:fontFamily="sans-serif-light"
         android:minHeight="30dp"
         android:minWidth="50dp"
-        android:padding="8dp"
-        android:text="完成"
+        android:text="@string/ok"
         android:textColor="@color/ok_btn_color"
-        android:textSize="14dp" />
+        android:textSize="12sp"
+        android:textStyle="normal" />
 
     <ImageView
         android:id="@+id/btn_del"

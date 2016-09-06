@@ -62,11 +62,9 @@ public class PhotoFlowActivity extends BaseAppCompatActivity implements View.OnC
         btn_dir.setCompoundDrawables(null, null, drawable, null);//只放左边
         btn_dir.setOnClickListener(this);
 
-
         btn_preview = (Button) findViewById(R.id.btn_preview);
         btn_preview.setEnabled(false);
         btn_preview.setOnClickListener(this);
-        TypefaceUtils.TYPEFACE.setFontNY(btn_preview);
 
         photoFlowFragment = (PhotoFlowFragment) getSupportFragmentManager().findFragmentByTag(PF_FRAGMENT_TAG);
 
@@ -104,8 +102,13 @@ public class PhotoFlowActivity extends BaseAppCompatActivity implements View.OnC
                     return false;
                 }
 
-                btn_ok.setText(getString(R.string.photo_picker_ok, total, maxCount));
-                btn_preview.setText(getString(R.string.photo_picker_preview, total));
+                if (total > 0) {
+                    btn_ok.setText(getString(R.string.photo_picker_ok, total, maxCount));
+                    btn_preview.setText(getString(R.string.photo_picker_preview, total));
+                } else {
+                    btn_ok.setText(getString(R.string.ok));
+                    btn_preview.setText(getString(R.string.preview));
+                }
 
                 return true;
             }
