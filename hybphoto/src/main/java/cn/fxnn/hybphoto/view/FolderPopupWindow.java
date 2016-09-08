@@ -7,7 +7,9 @@ import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
 
@@ -37,6 +39,9 @@ public class FolderPopupWindow extends PopupWindow {
     //为了消除白边设置widow偏移5个像素
     public static int POP_OFFSET = 5;
 
+    //列表高度
+    private int list_height = 0;
+
     public FolderPopupWindow(Context context, FolderListAdapter folderListAdapter) {
         super(context);
 
@@ -46,6 +51,7 @@ public class FolderPopupWindow extends PopupWindow {
 
         listView = (ListView) view.findViewById(R.id.pop_listview);
         listView.setAdapter(folderListAdapter);
+
 
         bg_view = (View) view.findViewById(R.id.bg_view);
         bg_view.setOnClickListener(new View.OnClickListener() {
@@ -61,13 +67,6 @@ public class FolderPopupWindow extends PopupWindow {
         setBackgroundDrawable(new ColorDrawable(0));
         setAnimationStyle(0);
         setContentView(view);
-        init();
-
-    }
-
-
-    private void init() {
-
 
     }
 
@@ -79,16 +78,32 @@ public class FolderPopupWindow extends PopupWindow {
     public void show() {
         if (anchorView != null && !isShowing()) {
             showAsDropDown(anchorView, 0, -POP_OFFSET);
-            ObjectAnimator alpha = ObjectAnimator.ofFloat(bg_view, "alpha", 0, 1);
-            ObjectAnimator translationY = ObjectAnimator.ofFloat(listView, "translationY", listView.getHeight(), 0);
-            AnimatorSet set = new AnimatorSet();
-            set.setDuration(300);
-            set.playTogether(alpha, translationY);
-            set.setInterpolator(new AccelerateDecelerateInterpolator());
-            set.start();
+
+            if (list_height != 0) {
+                showAnim();
+            } else {
+                listView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        listView.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                        list_height = listView.getHeight();
+                        showAnim();
+                    }
+                });
+            }
         }
     }
 
+
+    public void showAnim() {
+        ObjectAnimator alpha = ObjectAnimator.ofFloat(bg_view, "alpha", 0, 1);
+        ObjectAnimator translationY = ObjectAnimator.ofFloat(listView, "translationY", list_height, 0);
+        AnimatorSet set = new AnimatorSet();
+        set.setDuration(300);
+        set.playTogether(alpha, translationY);
+        set.setInterpolator(new AccelerateDecelerateInterpolator());
+        set.start();
+    }
 
     @Override
     public void dismiss() {
@@ -97,7 +112,7 @@ public class FolderPopupWindow extends PopupWindow {
             popupWindowHideListener.hide();
         }
         ObjectAnimator alpha = ObjectAnimator.ofFloat(bg_view, "alpha", 1, 0);
-        ObjectAnimator translationY = ObjectAnimator.ofFloat(listView, "translationY", 0, listView.getHeight());
+        ObjectAnimator translationY = ObjectAnimator.ofFloat(listView, "translationY", 0, list_height);
         AnimatorSet set = new AnimatorSet();
         set.setDuration(300);
         set.playTogether(alpha, translationY);
