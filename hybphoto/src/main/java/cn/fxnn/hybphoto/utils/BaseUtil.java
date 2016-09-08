@@ -1,7 +1,9 @@
 package cn.fxnn.hybphoto.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
 /**
@@ -13,6 +15,13 @@ import android.util.TypedValue;
  * ***************************
  */
 public class BaseUtil {
+
+    public static int getHeight(Activity context) {
+        DisplayMetrics dm = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        int screenHeigt = dm.heightPixels;
+        return screenHeigt;
+    }
 
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;

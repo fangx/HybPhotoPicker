@@ -21,6 +21,7 @@ import cn.fxnn.hybphoto.R;
 import cn.fxnn.hybphoto.adapter.PhotoFlowAdapter;
 import cn.fxnn.hybphoto.bean.PhotoFolderBean;
 import cn.fxnn.hybphoto.helper.PhotoScanHelper;
+import cn.fxnn.hybphoto.listener.ScanListener;
 import cn.fxnn.hybphoto.utils.Constants;
 
 /**
@@ -41,6 +42,8 @@ public class PhotoFlowFragment extends Fragment {
     private PhotoFlowAdapter photoFlowAdapter;
 
     List<PhotoFolderBean> photoFolderBeanList = new ArrayList<>();
+
+    ScanListener scanListener;
 
     public static PhotoFlowFragment newInstance(boolean showCamera, ArrayList<String> selectedPhotos) {
         Bundle args = new Bundle();
@@ -67,6 +70,9 @@ public class PhotoFlowFragment extends Fragment {
             public void scanComplete(List<PhotoFolderBean> folderBeanList) {
                 photoFolderBeanList.clear();
                 photoFolderBeanList.addAll(folderBeanList);
+                if (scanListener != null) {
+                    scanListener.scanSuccess(folderBeanList);
+                }
                 photoFlowAdapter.notifyDataSetChanged();
             }
         });
@@ -97,5 +103,29 @@ public class PhotoFlowFragment extends Fragment {
 
     public void setPhotoFlowAdapter(PhotoFlowAdapter photoFlowAdapter) {
         this.photoFlowAdapter = photoFlowAdapter;
+    }
+
+    public List<PhotoFolderBean> getPhotoFolderBeanList() {
+        return photoFolderBeanList;
+    }
+
+    public void setPhotoFolderBeanList(List<PhotoFolderBean> photoFolderBeanList) {
+        this.photoFolderBeanList = photoFolderBeanList;
+    }
+
+    public RequestManager getGlideRequestManager() {
+        return glideRequestManager;
+    }
+
+    public void setGlideRequestManager(RequestManager glideRequestManager) {
+        this.glideRequestManager = glideRequestManager;
+    }
+
+    public ScanListener getScanListener() {
+        return scanListener;
+    }
+
+    public void setScanListener(ScanListener scanListener) {
+        this.scanListener = scanListener;
     }
 }

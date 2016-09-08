@@ -14,7 +14,7 @@
     <color name="bg_wc_black1">#DC22292C</color>
     <color name="bg_wc_black2">#cc111111</color>
     <color name="bg_wc_mask">#88000000</color>
-
+    <color name="bg_wc_mask_dark">#b8000000</color>
 
     <color name="wc_green_press">#30941F</color>
     <color name="wc_green">#26A928</color>

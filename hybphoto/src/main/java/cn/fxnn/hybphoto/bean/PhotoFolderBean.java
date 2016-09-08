@@ -20,6 +20,18 @@ public class PhotoFolderBean {
     private List<PhotoBean> photoBeens = new ArrayList<>();
 
 
+    @Override
+    public boolean equals(Object o) {
+        try {
+            PhotoFolderBean other = (PhotoFolderBean) o;
+            return this.id.equalsIgnoreCase(other.id);
+        } catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+        return super.equals(o);
+    }
+
+
     public String getId() {
         return id;
     }

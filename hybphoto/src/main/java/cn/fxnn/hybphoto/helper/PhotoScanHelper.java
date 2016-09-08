@@ -114,19 +114,18 @@ public class PhotoScanHelper {
                     photoFolderBeans.add(photoFolderBean);
                 }
 
-                //防止没有图片报异常
-                if (data.getCount() > 0) {
-                    //构造所有图片的集合
-                    PhotoFolderBean allPhotoFolderBean = new PhotoFolderBean();
-                    allPhotoFolderBean.setName("全部图片");
-                    allPhotoFolderBean.setPath("/");
-                    allPhotoFolderBean.setCur(allPhotos.get(0));
-                    allPhotoFolderBean.setPhotoBeens(allPhotos);
-                    allPhotoFolderBean.setId("");
-                    photoFolderBeans.add(0, allPhotoFolderBean);
-                }
+            }
 
-
+            //防止没有图片报异常
+            if (data.getCount() > 0) {
+                //构造所有图片的集合
+                PhotoFolderBean allPhotoFolderBean = new PhotoFolderBean();
+                allPhotoFolderBean.setName("全部图片");
+                allPhotoFolderBean.setPath("/");
+                allPhotoFolderBean.setCur(allPhotos.get(0));
+                allPhotoFolderBean.setPhotoBeens(allPhotos);
+                allPhotoFolderBean.setId("");
+                photoFolderBeans.add(0, allPhotoFolderBean);
             }
 
             photoScanListener.scanComplete(photoFolderBeans);

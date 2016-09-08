@@ -6,4 +6,5 @@
     <string name="ok">完成</string>
     <string name="preview">预览</string>
     <string name="pick_photo">选择图片</string>
+    <string name="folder_image_count">%1$d张</string>
 </resources>

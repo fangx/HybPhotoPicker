@@ -1,21 +1,34 @@
 package cn.fxnn.hybphoto.ui.activity;
 
 import android.content.DialogInterface;
+import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v7.widget.ListPopupWindow;
+import android.view.Gravity;
 import android.view.View;
+import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import com.bumptech.glide.RequestManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.fxnn.hybphoto.R;
+import cn.fxnn.hybphoto.adapter.FolderListAdapter;
 import cn.fxnn.hybphoto.bean.PhotoBean;
+import cn.fxnn.hybphoto.bean.PhotoFolderBean;
 import cn.fxnn.hybphoto.listener.PhotoCheckListener;
+import cn.fxnn.hybphoto.listener.ScanListener;
 import cn.fxnn.hybphoto.ui.fragment.PhotoFlowFragment;
 import cn.fxnn.hybphoto.utils.BaseUtil;
 import cn.fxnn.hybphoto.utils.TypefaceUtils;
+import cn.fxnn.hybphoto.view.FolderPopupWindow;
 
 import static android.widget.Toast.LENGTH_LONG;
 
@@ -27,12 +40,25 @@ import static android.widget.Toast.LENGTH_LONG;
  * Description:
  * ***************************
  */
-public class PhotoFlowActivity extends BaseAppCompatActivity implements View.OnClickListener {
+public class PhotoFlowActivity extends BaseAppCompatActivity implements View.OnClickListener, FolderPopupWindow.PopupWindowHideListener {
 
     private static final String PF_FRAGMENT_TAG = "pf_fragment";
     private PhotoFlowFragment photoFlowFragment;
+    private RequestManager glideRequestManager;
     private int maxCount = 9;
+    public static int FOLDER_COUNT_MAX = 5;
 
+    //状态栏高度
+    private int statusBarHeight = 0;
+    private FolderPopupWindow listPopupWindow;
+    private FolderListAdapter folderListAdapter;
+    private List<PhotoFolderBean> photoFolderBeanList;
+    //是否点击了全部文件的按钮
+    private boolean all_folder_click = false;
+    //是否正在隐藏folder
+    private boolean hiding = false;
+
+    private RelativeLayout footer_bar;
 
     //完成按钮
     private Button btn_ok;
@@ -52,6 +78,10 @@ public class PhotoFlowActivity extends BaseAppCompatActivity implements View.OnC
 
 
     private void init() {
+
+        statusBarHeight = getStatusBarHeight();
+
+        footer_bar = (RelativeLayout) findViewById(R.id.footer_bar);
 
         btn_ok = (Button) findViewById(R.id.btn_ok);
         btn_ok.setEnabled(false);
@@ -77,6 +107,13 @@ public class PhotoFlowActivity extends BaseAppCompatActivity implements View.OnC
                     .commit();
             getSupportFragmentManager().executePendingTransactions();
         }
+
+        photoFlowFragment.setScanListener(new ScanListener() {
+            @Override
+            public void scanSuccess(List<PhotoFolderBean> photoFolderBeanList) {
+                initPopView(photoFolderBeanList);
+            }
+        });
 
         photoFlowFragment.getPhotoFlowAdapter().setPhotoCheckListener(new PhotoCheckListener() {
             @Override
@@ -114,13 +151,75 @@ public class PhotoFlowActivity extends BaseAppCompatActivity implements View.OnC
             }
         });
 
+
     }
+
+
+    //初始化图片文件夹选择弹框
+    private void initPopView(final List<PhotoFolderBean> photoFolderBeanList) {
+
+        glideRequestManager = photoFlowFragment.getGlideRequestManager();
+        folderListAdapter = new FolderListAdapter(glideRequestManager, photoFolderBeanList);
+
+        listPopupWindow = new FolderPopupWindow(this.getApplicationContext(), folderListAdapter);
+        listPopupWindow.setAnchorView(btn_dir);
+        listPopupWindow.setPopupWindowHideListener(this);
+
+    }
+
+
+//    @Override
+//    public void onClick(View v) {
+//        int i = v.getId();
+//        if (i == R.id.btn_dir) {
+//            if (listPopupWindow != null) {
+//                if (listPopupWindow.isShowing() && !hiding) {
+//                    listPopupWindow.dismiss();
+//                } else {
+//                    if (!all_folder_click && !hiding) {
+//                        adjustHeight();
+//                        listPopupWindow.show();
+//                        all_folder_click = true;
+//                    }
+//                }
+//            }
+//
+//        }
+//    }
 
 
     @Override
     public void onClick(View v) {
+        int i = v.getId();
+        if (i == R.id.btn_dir) {
+            if (hiding) {
+                return;
+            }
+            if (listPopupWindow != null) {
+                if (listPopupWindow.isShowing()) {
+                    listPopupWindow.dismiss();
+                } else {
+                    adjustHeight();
+                    listPopupWindow.show();
+                }
+            }
+
+        }
+    }
 
 
+    public void adjustHeight() {
+        if (folderListAdapter == null || listPopupWindow == null) return;
+        listPopupWindow.setHeight(BaseUtil.getHeight(this) - 2 * BaseUtil.dp2px(getApplicationContext(), 48) - statusBarHeight + FolderPopupWindow.POP_OFFSET);
+    }
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
     }
 
     @Override
@@ -129,4 +228,14 @@ public class PhotoFlowActivity extends BaseAppCompatActivity implements View.OnC
     }
 
 
+    @Override
+    public void hide() {
+        hiding = true;
+    }
+
+    @Override
+    public void hideed() {
+        hiding = false;
+        all_folder_click = false;
+    }
 }
