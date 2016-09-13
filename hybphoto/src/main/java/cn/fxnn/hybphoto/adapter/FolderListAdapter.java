@@ -109,8 +109,8 @@ public class FolderListAdapter extends BaseAdapter {
             tvCount.setText(tvCount.getContext().getString(R.string.folder_image_count, photoFolderBean.getPhotoBeens().size()));
 
             if (select_folder_index == position) {
-                rb_folder.setVisibility(View.VISIBLE);
                 rb_folder.setChecked(true);
+                rb_folder.setVisibility(View.VISIBLE);
             } else {
                 rb_folder.setChecked(false);
                 rb_folder.setVisibility(View.INVISIBLE);

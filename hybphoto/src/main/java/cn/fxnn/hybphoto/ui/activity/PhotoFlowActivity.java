@@ -53,12 +53,9 @@ public class PhotoFlowActivity extends BaseAppCompatActivity implements View.OnC
     private FolderPopupWindow listPopupWindow;
     private FolderListAdapter folderListAdapter;
     private List<PhotoFolderBean> photoFolderBeanList;
-    //是否点击了全部文件的按钮
-    private boolean all_folder_click = false;
+
     //是否正在隐藏folder
     private boolean hiding = false;
-
-    private RelativeLayout footer_bar;
 
     //完成按钮
     private Button btn_ok;
@@ -80,8 +77,6 @@ public class PhotoFlowActivity extends BaseAppCompatActivity implements View.OnC
     private void init() {
 
         statusBarHeight = getStatusBarHeight();
-
-        footer_bar = (RelativeLayout) findViewById(R.id.footer_bar);
 
         btn_ok = (Button) findViewById(R.id.btn_ok);
         btn_ok.setEnabled(false);
@@ -236,6 +231,11 @@ public class PhotoFlowActivity extends BaseAppCompatActivity implements View.OnC
     @Override
     public void hideed() {
         hiding = false;
-        all_folder_click = false;
+    }
+
+    @Override
+    public void changeFolder(int position) {
+        photoFlowFragment.getPhotoFlowAdapter().setCurrentDirectoryIndex(position);
+        photoFlowFragment.getPhotoFlowAdapter().notifyDataSetChanged();
     }
 }

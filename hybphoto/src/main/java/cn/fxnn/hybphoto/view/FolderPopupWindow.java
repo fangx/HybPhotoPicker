@@ -5,13 +5,17 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupWindow;
+
+import com.android.internal.content.NativeLibraryHelper;
 
 import cn.fxnn.hybphoto.R;
 import cn.fxnn.hybphoto.adapter.FolderListAdapter;
@@ -42,18 +46,37 @@ public class FolderPopupWindow extends PopupWindow {
     //列表高度
     private int list_height = 0;
 
+    private FolderListAdapter listAdapter;
+
     public FolderPopupWindow(Context context, FolderListAdapter folderListAdapter) {
         super(context);
 
         this.context = context;
+        this.listAdapter = folderListAdapter;
 
         final View view = View.inflate(context, R.layout.folder_pop_layout, null);
 
         listView = (ListView) view.findViewById(R.id.pop_listview);
         listView.setAdapter(folderListAdapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                listAdapter.setSelectFolderIndex(position);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        dismiss();
+                        if (popupWindowHideListener != null) {
+                            popupWindowHideListener.changeFolder(position);
+                        }
+                    }
+                }, 100);
+            }
+        });
 
-        bg_view = (View) view.findViewById(R.id.bg_view);
+
+        bg_view = view.findViewById(R.id.bg_view);
         bg_view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +122,7 @@ public class FolderPopupWindow extends PopupWindow {
         ObjectAnimator alpha = ObjectAnimator.ofFloat(bg_view, "alpha", 0, 1);
         ObjectAnimator translationY = ObjectAnimator.ofFloat(listView, "translationY", list_height, 0);
         AnimatorSet set = new AnimatorSet();
-        set.setDuration(300);
+        set.setDuration(200);
         set.playTogether(alpha, translationY);
         set.setInterpolator(new AccelerateDecelerateInterpolator());
         set.start();
@@ -114,7 +137,7 @@ public class FolderPopupWindow extends PopupWindow {
         ObjectAnimator alpha = ObjectAnimator.ofFloat(bg_view, "alpha", 1, 0);
         ObjectAnimator translationY = ObjectAnimator.ofFloat(listView, "translationY", 0, list_height);
         AnimatorSet set = new AnimatorSet();
-        set.setDuration(300);
+        set.setDuration(200);
         set.playTogether(alpha, translationY);
         set.setInterpolator(new AccelerateDecelerateInterpolator());
         set.addListener(new Animator.AnimatorListener() {
@@ -154,6 +177,8 @@ public class FolderPopupWindow extends PopupWindow {
         void hide();
 
         void hideed();
+
+        void changeFolder(int position);
     }
 
 

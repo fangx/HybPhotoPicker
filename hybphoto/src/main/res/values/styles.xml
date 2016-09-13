@@ -11,7 +11,7 @@
     </style>
 
     <style name="RadioButtonTheme" parent="Theme.AppCompat.Light">
-        <item name="colorControlNormal">@color/tv_gray_lighter</item>
+        <item name="colorControlNormal">@color/tv_white</item>
         <item name="colorControlActivated">@color/wc_green</item>
     </style>
 
