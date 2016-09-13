@@ -10,5 +10,9 @@
         <item name="android:button">@drawable/selector_item_checked</item>
     </style>
 
+    <style name="RadioButtonTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">@color/tv_gray_lighter</item>
+        <item name="colorControlActivated">@color/wc_green</item>
+    </style>
 
 </resources>
